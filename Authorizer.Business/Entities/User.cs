@@ -7,11 +7,10 @@ namespace Authorizer.Business.Entities
     public class User
     {
         [Key]
-        [Column("Id")]
         public int Id { get; set; }
-        [Column("Username")]
         public string Username { get; set; }
-        [Column("Password")]
         public string Password { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
     }
 }

@@ -1,6 +1,8 @@
-﻿using Authorizer.Business.Entities;
+﻿using Authorizer.Business.DataTransferObjects;
+using Authorizer.Business.Entities;
 using Authorizer.Data.Constants;
 using Authorizer.Data.Interfaces;
+using Authorizer.Data.Helpers;
 using Authorizer.Data.Repositories.Interfaces;
 using JWT;
 using JWT.Algorithms;
@@ -20,7 +22,7 @@ namespace Authorizer.Data.Services
             _userRepository = userRepository;
         }
 
-        public async Task<User> VerifyAccess(string accessToken)
+        public async Task<UserDTO> VerifyAccess(string accessToken)
         {
             try
             {
@@ -35,7 +37,11 @@ namespace Authorizer.Data.Services
 
                 var payload = JsonConvert.DeserializeObject<Payload>(json);
 
-                return await _userRepository.GetByCredentials(payload.Username, payload.Password);
+                var userEntity = await _userRepository.GetByCredentials(payload.Username, payload.Password);
+
+                var user = MapUtils.Initialize<User, UserDTO>(userEntity);
+
+                return user;
             }
             catch (TokenExpiredException ex)
             {
@@ -47,7 +53,7 @@ namespace Authorizer.Data.Services
             }
         }
 
-        public async Task<User> VerifyRefresh(string refreshToken)
+        public async Task<UserDTO> VerifyRefresh(string refreshToken)
         {
             throw new NotImplementedException();
         }

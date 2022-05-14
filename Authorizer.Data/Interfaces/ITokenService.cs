@@ -1,4 +1,5 @@
-﻿using Authorizer.Business.Entities;
+﻿using Authorizer.Business.DataTransferObjects;
+using Authorizer.Business.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace Authorizer.Data.Interfaces
 {
     public interface ITokenService
     {
-        Task<User> VerifyAccess(string accessToken);
-        Task<User> VerifyRefresh(string refreshToken);
+        Task<UserDTO> VerifyAccess(string accessToken);
+        Task<UserDTO> VerifyRefresh(string refreshToken);
     }
 }
